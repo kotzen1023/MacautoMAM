@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "964809222223",
+    "firebase_url": "https://macauto-mam-project.firebaseio.com",
+    "project_id": "macauto-mam-project",
+    "storage_bucket": "macauto-mam-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964809222223:android:9274887e86f100f4",
+        "android_client_info": {
+          "package_name": "com.macauto.macautomam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964809222223-hthbu08bfnk75165pr2bnsl9f9jq8lhi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.macauto.macautomam",
+            "certificate_hash": "37b5ed11102947f2f2edda6b1a666d56011b784f"
+          }
+        },
+        {
+          "client_id": "964809222223-m420mgk379thmgauplurbn4muaubsrlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1rab3JViRNcd-edzuZe89N-JOpjKWUfs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964809222223-m420mgk379thmgauplurbn4muaubsrlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

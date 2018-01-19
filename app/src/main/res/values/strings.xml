@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">MAM EDI</string>
+    <string name="mam_history_tab">Notification</string>
+    <string name="mam_setting">Settings</string>
+    <string name="mam_show_title">Title</string>
+    <string name="mam_show_content">Content</string>
+    <string name="mam_show_date">Date</string>
+    <string name="mam_clear">Clear</string>
+    <string name="mam_warning">Warning</string>
+    <string name="mam_confirm">Confirm</string>
+    <string name="mam_cancel">Cancel</string>
+    <string name="mam_clear_msg">Clear all message?</string>
+    <string name="mam_search">Search</string>
+    <string name="mam_login_account">Account</string>
+    <string name="mam_login_passord">Password</string>
+    <string name="mam_login_keep_account_password">Keep account and password</string>
+    <string name="mam_login_account_empty">Account can not be empty</string>
+    <string name="mam_login_password_empty">Password can not be empty</string>
+    <string name="mam_login_dialog_logging">Login...</string>
+    <string name="mam_setting_logout">Logout</string>
+    <string name="mam_more_logout_title">Logout</string>
+    <string name="mam_more_logout_descrypt">Logout from this account? You won\'t receive message after logout.</string>
+    <string name="mam_login_fail">Login fail</string>
+    <string name="mam_soap_error">Server error</string>
+    <string name="mam_order_no">Order No.</string>
+    <string name="mam_time">Time :</string>
+    <string name="date_today">Today</string>
+</resources>
