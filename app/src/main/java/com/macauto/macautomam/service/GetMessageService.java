@@ -1,4 +1,4 @@
-package com.macauto.macautomam.Service;
+package com.macauto.macautomam.service;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -6,8 +6,8 @@ import android.os.Build;
 import android.util.Log;
 import android.util.Xml;
 
-import com.macauto.macautomam.Data.Constants;
-import com.macauto.macautomam.Data.HistoryItem;
+import com.macauto.macautomam.data.Constants;
+import com.macauto.macautomam.data.HistoryItem;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import static com.macauto.macautomam.HistoryFragment.historyItemArrayList;
+
 
 
 
@@ -71,15 +71,19 @@ public class GetMessageService extends IntentService {
 
         Log.i(TAG, "Handle");
 
-        String account;
+        //String account;
         String device_id;
 
-        account = intent.getStringExtra("ACCOUNT");
+        //account = intent.getStringExtra("ACCOUNT");
         device_id = intent.getStringExtra("DEVICE_ID");
 
-        if (intent.getAction().equals(Constants.ACTION.GET_MESSAGE_LIST_ACTION)) {
-            Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(Constants.ACTION.GET_MESSAGE_LIST_ACTION)) {
+                Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+            }
         }
+
+
 
         try {
             // 建立一個 WebService 請求

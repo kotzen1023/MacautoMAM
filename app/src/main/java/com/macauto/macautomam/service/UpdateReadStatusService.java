@@ -1,10 +1,10 @@
-package com.macauto.macautomam.Service;
+package com.macauto.macautomam.service;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautomam.Data.Constants;
+import com.macauto.macautomam.data.Constants;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -67,8 +67,10 @@ public class UpdateReadStatusService extends IntentService {
 
         Log.d(TAG, "customer = "+customer+" edi_type = "+edi_type+" interchange_ctrl_id = "+interchange_ctrl_id+" device id = "+device_id);
 
-        if (intent.getAction().equals(Constants.ACTION.UPDATE_MESSAGE_READ_SP_ACTION)) {
-            Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(Constants.ACTION.UPDATE_MESSAGE_READ_SP_ACTION)) {
+                Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+            }
         }
 
         try {

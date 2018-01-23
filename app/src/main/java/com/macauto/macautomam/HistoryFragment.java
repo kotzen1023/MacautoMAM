@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import android.util.Log;
@@ -19,11 +20,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-import com.macauto.macautomam.Data.Constants;
-import com.macauto.macautomam.Data.HistoryAdapter;
-import com.macauto.macautomam.Data.HistoryItem;
-import com.macauto.macautomam.Service.GetMessageService;
-import com.macauto.macautomam.Service.UpdateReadStatusService;
+import com.macauto.macautomam.data.Constants;
+import com.macauto.macautomam.data.HistoryAdapter;
+import com.macauto.macautomam.data.HistoryItem;
+import com.macauto.macautomam.service.GetMessageService;
+import com.macauto.macautomam.service.UpdateReadStatusService;
 
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class HistoryFragment extends Fragment {
     //public ArrayAdapter<Spanned> arrayAdapter = null;
     public static ArrayList<HistoryItem> historyItemArrayList = new ArrayList<>();
     public static ArrayList<HistoryItem> sortedNotifyList = new ArrayList<>();
-    public static HistoryAdapter historyAdapter;
+    public HistoryAdapter historyAdapter;
     //private ChangeListener changeListener = null;
     //private Connection connection;
 
@@ -68,7 +69,7 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Log.d(TAG, "onCreateView");
@@ -77,15 +78,22 @@ public class HistoryFragment extends Fragment {
 
         context = getContext();
 
-        pref = context.getSharedPreferences(FILE_NAME, MODE_PRIVATE);
-        account = pref.getString("ACCOUNT", "");
-        device_id = pref.getString("WIFIMAC", "");
+        if (context != null) {
+            pref = context.getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+            account = pref.getString("ACCOUNT", "");
+            device_id = pref.getString("WIFIMAC", "");
+        } else {
+            account = "";
+            device_id = "";
+        }
+
+
 
 
 
         IntentFilter filter;
 
-        listView = (ListView) view.findViewById(R.id.listViewHistory);
+        listView = view.findViewById(R.id.listViewHistory);
         listView.setTextFilterEnabled(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,20 +101,24 @@ public class HistoryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HistoryItem item = historyAdapter.getItem(position);
 
-                if (item.isRead_sp()) {
-                    Log.d(TAG, "read sp true");
-                } else {
-                    item.setRead_sp(true);
-                    listView.invalidateViews();
+                if (item != null) {
+                    if (item.isRead_sp()) {
+                        Log.d(TAG, "read sp true");
+                    } else {
+                        item.setRead_sp(true);
+                        listView.invalidateViews();
 
-                    Intent intent = new Intent(context, UpdateReadStatusService.class);
-                    intent.setAction(Constants.ACTION.UPDATE_MESSAGE_READ_SP_ACTION);
-                    intent.putExtra("CUSTOMER", item.getCustomer());
-                    intent.putExtra("EDI_TYPE", item.getEdi_type());
-                    intent.putExtra("INTERCHANGE_CTRL_ID", item.getInterchange_ctrl_id());
-                    intent.putExtra("DEVICE_ID", device_id);
-                    context.startService(intent);
+                        Intent intent = new Intent(context, UpdateReadStatusService.class);
+                        intent.setAction(Constants.ACTION.UPDATE_MESSAGE_READ_SP_ACTION);
+                        intent.putExtra("CUSTOMER", item.getCustomer());
+                        intent.putExtra("EDI_TYPE", item.getEdi_type());
+                        intent.putExtra("INTERCHANGE_CTRL_ID", item.getInterchange_ctrl_id());
+                        intent.putExtra("DEVICE_ID", device_id);
+                        context.startService(intent);
+                    }
                 }
+
+
 
 
                 /*if (item != null) {
@@ -126,53 +138,61 @@ public class HistoryFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION)) {
-                    Log.d(TAG, "receive brocast !");
 
-                    //historyAdapter.notifyDataSetChanged();
-                    Intent getintent = new Intent(context, GetMessageService.class);
-                    getintent.setAction(Constants.ACTION.GET_MESSAGE_LIST_ACTION);
-                    getintent.putExtra("ACCOUNT", account);
-                    getintent.putExtra("DEVICE_ID", device_id);
-                    context.startService(getintent);
+                if (intent.getAction() != null) {
+
+                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION)) {
+                        Log.d(TAG, "receive brocast !");
+
+                        //historyAdapter.notifyDataSetChanged();
+                        Intent getintent = new Intent(context, GetMessageService.class);
+                        getintent.setAction(Constants.ACTION.GET_MESSAGE_LIST_ACTION);
+                        getintent.putExtra("ACCOUNT", account);
+                        getintent.putExtra("DEVICE_ID", device_id);
+                        context.startService(getintent);
 
 
-                } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE)) {
-                    Log.d(TAG, "receive brocast GET_MESSAGE_LIST_COMPLETE!");
-                    historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
-                    listView.setAdapter(historyAdapter);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE)) {
+                        Log.d(TAG, "receive brocast GET_MESSAGE_LIST_COMPLETE!");
+                        historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
+                        listView.setAdapter(historyAdapter);
 
-                    loadDialog.dismiss();
+                        loadDialog.dismiss();
 
-                    int badgeCount = 0;
-                    for (int i = 0; i < historyItemArrayList.size(); i++) {
-                        if (!historyItemArrayList.get(i).isRead_sp()) {
-                            badgeCount++;
+                        int badgeCount = 0;
+                        for (int i = 0; i < historyItemArrayList.size(); i++) {
+                            if (!historyItemArrayList.get(i).isRead_sp()) {
+                                badgeCount++;
+                            }
                         }
+
+                        ShortcutBadger.applyCount(context, badgeCount);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE)) {
+                        historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
+                        listView.setAdapter(historyAdapter);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_LIST_CLEAR)) {
+                        Log.d(TAG, "receive brocast GET_MESSAGE_LIST_CLEAR!");
+                        if (historyAdapter != null)
+                            historyAdapter.notifyDataSetChanged();
+
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_DATA)) {
+                        Log.d(TAG, "receive brocast GET_MESSAGE_DATA!");
+
+                        if (intent.getExtras() != null) {
+                            HistoryItem item = new HistoryItem();
+                            item.setCustomer(intent.getExtras().getString("customer"));
+                            item.setEdi_type(intent.getExtras().getString("edi_type"));
+                            item.setInterchange_ctrl_id(intent.getExtras().getString("interchange_control_id"));
+                            item.setDate(intent.getExtras().getString("send_datetime"));
+                            item.setRead_sp(intent.getExtras().getBoolean("read_sp"));
+
+
+                            historyItemArrayList.add(item);
+                        }
+
+
                     }
-
-                    ShortcutBadger.applyCount(context, badgeCount);
-                } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE)) {
-                    historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
-                    listView.setAdapter(historyAdapter);
-                } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_LIST_CLEAR)) {
-                    Log.d(TAG, "receive brocast GET_MESSAGE_LIST_CLEAR!");
-                    if (historyAdapter != null)
-                        historyAdapter.notifyDataSetChanged();
-
-
-                } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_DATA)) {
-                    Log.d(TAG, "receive brocast GET_MESSAGE_DATA!");
-
-                    HistoryItem item = new HistoryItem();
-                    item.setCustomer(intent.getExtras().getString("customer"));
-                    item.setEdi_type(intent.getExtras().getString("edi_type"));
-                    item.setInterchange_ctrl_id(intent.getExtras().getString("interchange_control_id"));
-                    item.setDate(intent.getExtras().getString("send_datetime"));
-                    item.setRead_sp(intent.getExtras().getBoolean("read_sp"));
-
-
-                    historyItemArrayList.add(item);
                 }
             }
         };

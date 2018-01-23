@@ -23,7 +23,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
-import com.macauto.macautomam.Data.Constants;
+import com.macauto.macautomam.data.Constants;
 
 
 import static com.macauto.macautomam.HistoryFragment.historyItemArrayList;
@@ -106,7 +106,7 @@ public class MainMenu extends AppCompatActivity {
     private void InitView() {
         FragmentTabHost mTabHost;
 
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        mTabHost = findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
         //mTabHost.addTab(setIndicator(MainMenu.this, mTabHost.newTabSpec(TAB_1_TAG),

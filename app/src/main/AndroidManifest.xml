@@ -28,25 +28,25 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".ErrorTimer"/>
 
-        <receiver android:enabled="true" android:name=".Receiver.Receive_BootCompleted">
+        <receiver android:enabled="true" android:name=".receiver.Receive_BootCompleted">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
-        <service android:name=".Service.MamInstanceIDService">
+        <service android:name=".service.MamInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".Service.MamFirebaseMessagingService">
+        <service android:name=".service.MamFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".Service.LoginCheckService"/>
-        <service android:name=".Service.GetMessageService"/>
-        <service android:name=".Service.UpdateReadStatusService"/>
+        <service android:name=".service.LoginCheckService"/>
+        <service android:name=".service.GetMessageService"/>
+        <service android:name=".service.UpdateReadStatusService"/>
     </application>
 
 </manifest>

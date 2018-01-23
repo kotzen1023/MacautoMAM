@@ -10,8 +10,8 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.macauto.macautomam.Data.Constants;
-import com.macauto.macautomam.Service.UpdateReadStatusService;
+import com.macauto.macautomam.data.Constants;
+import com.macauto.macautomam.service.UpdateReadStatusService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class HistoryShow extends Activity {
             window.setStatusBarColor(getResources().getColor(R.color.status_bar_color_menu_classic, getTheme()));
         }
 
-        ListView listView = (ListView) findViewById(R.id.listViewHistoryShow);
+        ListView listView = findViewById(R.id.listViewHistoryShow);
 
         Intent getintent = getIntent();
 

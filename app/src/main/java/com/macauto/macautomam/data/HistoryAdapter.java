@@ -1,4 +1,4 @@
-package com.macauto.macautomam.Data;
+package com.macauto.macautomam.data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -57,7 +57,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
     }
 
     @NonNull
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView,@NonNull ViewGroup parent) {
 
         //Log.e(TAG, "getView = " + position);
         View view;
@@ -90,7 +90,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
         if (item != null) {
 
             String splitter[] = item.getDate().split(" ");
-            String time_splitter[] = splitter[1].split(":");
+            //String time_splitter[] = splitter[1].split(":");
 
             String end_date = splitter[1].substring(0, splitter[1].length() -3);
 
@@ -126,12 +126,14 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
                     holder.date.setText(end_date);
 
                 } else {
-                    holder.date.setText(splitter[0]+" " + end_date);
+                    String msg = splitter[0]+" " + end_date;
+                    holder.date.setText(msg);
                 }
             }
 
             if (!item.getCustomer().equals("") && !item.getEdi_type().equals("") && !item.getInterchange_ctrl_id().equals("")) {
-                holder.msg.setText(item.getCustomer() + "-"+item.getEdi_type()+ "-"+item.getInterchange_ctrl_id());
+                String msg = item.getCustomer() + "-"+item.getEdi_type()+ "-"+item.getInterchange_ctrl_id();
+                holder.msg.setText(msg);
                 /*if (splitter.length == 2 && time_splitter.length == 3) {
                     holder.msg.setText(item.getCustomer() + "-"+item.getEdi_type()+ "-"+item.getInterchange_ctrl_id()+"   "+time_splitter[0] + ":" + time_splitter[1]);
                 } else {
@@ -168,10 +170,10 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
         private ViewHolder(View view) {
 
-            this.action = (ImageView) view.findViewById(R.id.title_icon);
-            this.day = (TextView) view.findViewById(R.id.history_day);
-            this.date = (TextView) view.findViewById(R.id.history_time);
-            this.msg = (TextView) view.findViewById(R.id.history_msg);
+            this.action = view.findViewById(R.id.title_icon);
+            this.day = view.findViewById(R.id.history_day);
+            this.date = view.findViewById(R.id.history_time);
+            this.msg = view.findViewById(R.id.history_msg);
             //this.date = (TextView) view.findViewById(R.id.history_time);
         }
 
